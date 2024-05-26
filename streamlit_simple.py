@@ -80,7 +80,7 @@ def main():
     # Model Name Selector
     model_name = st.sidebar.selectbox(
         "Pick a model",
-        ["RAG", "Finetune"]
+        ["RAG", "Finetune_ver1", "Finetune_ver2"]
     )
 
     if "model" not in st.session_state:
@@ -143,9 +143,12 @@ def main():
             if model_name == "RAG":
                 response = get_answer_from_chain(st.session_state["rag_chain"], 
                                   st.session_state["knowledge_base"], prompt)
-            else:
+            elif model_name == "Finetune_ver1":
                 messages = create_message_for_finetune(prompt)
-                response = get_answer_from_finetune(messages)
+                response = get_answer_from_finetune(messages, model="ft:gpt-3.5-turbo-0613:tols:tols-v1:8PdVprZq")
+            elif model_name == "Finetune_ver2":
+                messages = create_message_for_finetune(prompt)
+                response = get_answer_from_finetune(messages, model = "ft:gpt-3.5-turbo-0125:tols:tols-v2:9TDyQjsb")
                 
             # Create replying effect
         message_placeholder = st.empty()
